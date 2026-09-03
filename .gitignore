@@ -219,8 +219,11 @@ __marimo__/
 
 # ProCL generated artifacts
 outputs/
+outputs
 slurm_logs/
+slurm_logs
 tmp/
+tmp
 .cache/
 *.out
 *.err
