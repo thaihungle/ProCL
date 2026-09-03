@@ -1,9 +1,14 @@
-# ProCL Paper Reproduction
+# 🚀 ProCL Paper Code
 
-This folder contains reproduction code for the paper:
+Source code for:
 
 **Continual Fine-Tuning of Large Language Models via Program Memory**  
 https://arxiv.org/abs/2605.13162
+
+This repository focuses on reproducing the paper's continual fine-tuning method,
+**ProCL**, together with two baselines: `seq_lora` and `deal`.
+
+## ✅ Current Support
 
 The current implementation supports the QA continual-learning sequence:
 
@@ -11,34 +16,57 @@ The current implementation supports the QA continual-learning sequence:
 BoolQ -> SQuAD -> AdversarialQA
 ```
 
+More task families from the paper are planned in the TODO section.
 
-## Setup
+## 📦 Setup
 
 ```bash
 cd ProCL
 pip install -r requirements.txt
+mkdir -p outputs
 ```
+
+The `outputs/` folder is required because trained adapters and evaluation JSON
+files are written there. It is ignored by Git, so experiment artifacts are kept
+local and are not pushed to GitHub.
 
 The code downloads Hugging Face datasets and loads the selected base model at
 runtime. Make sure you have access to gated models such as LLaMA before running
 those experiments.
 
-## Run Locally
+## ⚡ Quick Start
 
-Default ProCL run:
+Run ProCL with the default QA setting:
 
 ```bash
 bash run_sequence.sh procl decoder Qwen/Qwen3-4B 42
 ```
 
-Run the baselines:
+This runs the full sequence:
+
+```text
+Task 1: BoolQ
+Task 2: SQuAD
+Task 3: AdversarialQA
+```
+
+## 🧪 Baselines
+
+Run sequential LoRA:
 
 ```bash
 bash run_sequence.sh seq_lora decoder Qwen/Qwen3-4B 42
+```
+
+Run DEAL:
+
+```bash
 bash run_sequence.sh deal decoder Qwen/Qwen3-4B 42
 ```
 
-Run LLaMA backbone:
+## 🧠 Backbones
+
+Run LLaMA:
 
 ```bash
 bash run_sequence.sh procl decoder meta-llama/Llama-3.2-3B-Instruct 42
@@ -50,7 +78,7 @@ Run FLAN-T5:
 bash run_sequence.sh procl t5 google/flan-t5-base 42
 ```
 
-## Run All Seeds
+## 🎲 Run Three Seeds
 
 ```bash
 for SEED in 42 420 4200; do
@@ -58,30 +86,21 @@ for SEED in 42 420 4200; do
 done
 ```
 
-## Resume
+## ⏩ Resume
 
-Resume from task 2 or task 3 after earlier adapters have been saved:
+Resume from task 2:
 
 ```bash
 START_TASK=2 bash run_sequence.sh procl decoder Qwen/Qwen3-4B 42
+```
+
+Resume from task 3:
+
+```bash
 START_TASK=3 bash run_sequence.sh procl decoder Qwen/Qwen3-4B 42
 ```
 
-## SLURM
-
-Submit the default sequence from this folder:
-
-```bash
-sbatch run_sequence_slurm.sh
-```
-
-Or submit from the parent directory:
-
-```bash
-METHOD=procl BACKBONE=decoder MODEL=Qwen/Qwen3-4B SEED=42 bash ProCL/submit_slurm.sh
-```
-
-## Defaults
+## ⚙️ Defaults
 
 Supported methods:
 
@@ -114,15 +133,15 @@ LR=2e-5
 EPOCHS=2
 ```
 
-Any default can be overridden with an environment variable:
+Override any default with an environment variable:
 
 ```bash
 LR=2e-5 EPOCHS=2 bash run_sequence.sh procl decoder Qwen/Qwen3-4B 42
 ```
 
-## Outputs
+## 📁 Outputs
 
-Results are written under:
+Results are saved under:
 
 ```text
 outputs/<backbone>/base-<model>/seed<seed>/
@@ -141,14 +160,16 @@ outputs/.../seed42/procl/2-squad
 outputs/.../seed42/procl/3-adversarial_qa
 ```
 
-Each task folder contains an adapter and an evaluation JSON:
+Each task folder contains:
 
 ```text
 adapter/
 eval_results_<seed>.json
 ```
 
-## TODO
+## 📝 TODO
 
 - Add the remaining paper task families beyond QA.
-- Extend to other QA tasks
+- Extend to additional QA benchmarks.
+- Add checked configs for each reported backbone.
+- Add a result aggregation script for paper-style tables.
