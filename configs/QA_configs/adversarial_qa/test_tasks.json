@@ -1,0 +1,19 @@
+{
+  "QA": [
+    {
+      "sampling strategy": "subset",
+      "dataset name": "google/boolq",
+      "num_samples": 1000
+    },
+    {
+      "sampling strategy": "subset",
+      "dataset name": "squad",
+      "num_samples": 1000
+    },
+    {
+      "sampling strategy": "subset",
+      "dataset name": "adversarial_qa",
+      "num_samples": 1000
+    }
+  ]
+}

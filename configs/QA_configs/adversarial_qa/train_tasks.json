@@ -1,0 +1,9 @@
+{
+  "QA": [
+    {
+      "sampling strategy": "subset",
+      "dataset name": "adversarial_qa",
+      "num_samples": 5000
+    }
+  ]
+}

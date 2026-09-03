@@ -1,0 +1,9 @@
+{
+  "QA": [
+    {
+      "sampling strategy": "subset",
+      "dataset name": "google/boolq",
+      "num_samples": 5000
+    }
+  ]
+}

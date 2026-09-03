@@ -1,0 +1,9 @@
+{
+  "QA": [
+    {
+      "sampling strategy": "subset",
+      "dataset name": "squad",
+      "num_samples": 5000
+    }
+  ]
+}
