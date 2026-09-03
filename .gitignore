@@ -216,3 +216,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ProCL generated artifacts
+outputs/
+slurm_logs/
+tmp/
+.cache/
+*.out
+*.err
+slurm-*.out
+*slurm*.sh
+submit_slurm.sh
