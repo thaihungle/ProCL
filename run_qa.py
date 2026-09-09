@@ -338,7 +338,9 @@ class ProCLLinear(nn.Module):
 def replace_lora_modules(model, method: str, backbone: str, args):
     modules = dict(model.named_modules())
     for name, module in list(modules.items()):
-        if "lora_A.default" not in name and (backbone != "decoder" or "lora_B.default" not in name):
+        replace_lora_a = "lora_A.default" in name
+        replace_lora_b = "lora_B.default" in name and (backbone == "decoder" or method == "deal")
+        if not replace_lora_a and not replace_lora_b:
             continue
         parent_name, _, child_name = name.rpartition(".")
         original_weight = module.weight

@@ -20,10 +20,39 @@ More task families from the paper are planned in the TODO section.
 
 ## 📦 Setup
 
+Create and activate a conda environment:
+
+```bash
+conda create -n procl python=3.10 -y
+conda activate procl
+```
+
+Install dependencies and create the output folder:
+
 ```bash
 cd ProCL
+pip install torch --index-url https://download.pytorch.org/whl/cu124
 pip install -r requirements.txt
+pip install pytorch-wavelets
 mkdir -p outputs
+```
+
+Install PyTorch first with a CUDA wheel supported by your cluster driver, then
+install the remaining packages. If your driver is older or newer than CUDA 12.4,
+choose the matching PyTorch wheel index from the official PyTorch install page.
+Check CUDA from a GPU node or inside a SLURM allocation:
+
+```bash
+python -c "import torch; print(torch.__version__, torch.version.cuda, torch.cuda.is_available())"
+```
+
+The last value should be `True` when a GPU is visible. It may be `False` on a
+login node without an allocated GPU.
+
+For DEAL runs, verify the wavelet dependency:
+
+```bash
+python -c "from pytorch_wavelets import DWTForward, DWTInverse; print('pytorch-wavelets ok')"
 ```
 
 The `outputs/` folder is required because trained adapters and evaluation JSON
