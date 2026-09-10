@@ -31,23 +31,14 @@ Install dependencies and create the output folder:
 
 ```bash
 cd ProCL
-pip install torch --index-url https://download.pytorch.org/whl/cu124
-pip install -r requirements.txt
-pip install pytorch-wavelets
+python -m pip install torch --index-url https://download.pytorch.org/whl/cu124
+python -m pip install -r requirements.txt
 mkdir -p outputs
 ```
 
 Install PyTorch first with a CUDA wheel supported by your cluster driver, then
 install the remaining packages. If your driver is older or newer than CUDA 12.4,
 choose the matching PyTorch wheel index from the official PyTorch install page.
-Check CUDA from a GPU node or inside a SLURM allocation:
-
-```bash
-python -c "import torch; print(torch.__version__, torch.version.cuda, torch.cuda.is_available())"
-```
-
-The last value should be `True` when a GPU is visible. It may be `False` on a
-login node without an allocated GPU.
 
 For DEAL runs, verify the wavelet dependency:
 
@@ -55,9 +46,17 @@ For DEAL runs, verify the wavelet dependency:
 python -c "from pytorch_wavelets import DWTForward, DWTInverse; print('pytorch-wavelets ok')"
 ```
 
+If this fails with `No module named 'pkg_resources'`, downgrade `setuptools`.
+Recent `setuptools` releases removed `pkg_resources`, which `pytorch-wavelets`
+still imports:
+
+```bash
+python -m pip install "setuptools==80.9.0" --force-reinstall
+python -m pip install PyWavelets pytorch-wavelets --force-reinstall
+```
+
 The `outputs/` folder is required because trained adapters and evaluation JSON
-files are written there. It is ignored by Git, so experiment artifacts are kept
-local and are not pushed to GitHub.
+files are written there. 
 
 The code downloads Hugging Face datasets and loads the selected base model at
 runtime. Make sure you have access to gated models such as LLaMA before running
