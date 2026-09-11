@@ -106,6 +106,17 @@ Run FLAN-T5:
 bash run_sequence.sh procl t5 google/flan-t5-base 42
 ```
 
+### Tested LLMs
+
+| Backbone | Model | Command `BACKBONE` |
+|---|---|---|
+| Qwen3 4B | `Qwen/Qwen3-4B` | `decoder` |
+| Qwen3 8B | `Qwen/Qwen3-8B` | `decoder` |
+| LLaMA 3.2 3B Instruct | `meta-llama/Llama-3.2-3B-Instruct` | `decoder` |
+| LLaMA 3.1 8B Instruct | `meta-llama/Llama-3.1-8B-Instruct` | `decoder` |
+| FLAN-T5 Base | `google/flan-t5-base` | `t5` |
+| FLAN-T5 Large | `google/flan-t5-large` | `t5` |
+
 ## 🎲 Run Three Seeds
 
 ```bash
